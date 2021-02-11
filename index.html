@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="assets/css/roboto-font.css" rel="stylesheet">
+  <link href="assets/css/materialdesignicons.css" rel="stylesheet">
+  <link href="assets/css/vuetify.min.css" rel="stylesheet">
+  <link href="assets/css/vue-transitions.css" rel="stylesheet">
+  <link href="assets/css/Chart.css" rel="stylesheet">
+    <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app max-height="80vh">
+      <v-main :style="{background: $vuetify.theme.themes[theme].background}">
+          <router-view></router-view>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="assets/js/vue.js"></script>
+  <script src="assets/js/vue-router.js"></script>
+  <script src="assets/js/vuetify.js"></script>
+  <script src="assets/js/axios.min.js"></script>
+  <script src="assets/js/moment.min.js"></script>
+  <script src="assets/js/Chart.bundle.js"></script>
+  <!-- Localizations -->
+  <script src="localizations/common.js"></script>
+  <script src="localizations/rules.js"></script>
+  <script src="localizations/utils.js"></script>
+  <!-- Main Views -->
+  <script src="views/main.js"></script>
+  <script src="views/seller.js"></script>
+  <script src="views/main/home.js"></script>
+  <script src="views/main/login.js"></script>
+  <script src="views/main/shop.js"></script>
+  <script src="views/main/register.js"></script>
+  <script src="views/main/checkout.js"></script>
+  <script src="views/main/profile.js"></script>
+  <!-- Registration Views -->
+  <script src="views/main/register/registration.js"></script>
+  <script src="views/main/register/customer.js"></script>
+  <script src="views/main/register/seller.js"></script>
+  <!-- Shop Views -->
+  <script src="views/main/product.js"></script>
+  <!-- Seller Views -->
+  <script src="views/seller/my-products.js"></script>
+  <script src="views/seller/dashboard.js"></script>
+  <script src="views/seller/orders.js"></script>
+  <script src="views/seller/questions.js"></script>
+  <script src="views/seller/profile.js"></script>
+  <!-- Global Components -->
+  <script src="components/productCard.js"></script>
+  <script src="components/ordersChart.js"></script>
+
+  <!-- Vue Routes -->
+  <script src="routes.js"></script>
+  <!-- Vuetify Theme -->
+  <script src="theme.js"></script>
+  <script>
+    Vue.use(VueRouter)
+    const router = new VueRouter({ routes })
+    new Vue({
+      el: '#app',
+      router,
+      vuetify: new Vuetify(vuetifyTheme),
+      computed: {
+        theme () {
+          return (this.$vuetify.theme.dark) ? 'dark' : 'light'
+        }
+    }
+    })
+  </script>
+</body>
+</html>
