@@ -7,16 +7,29 @@ const CustomerRegistration = Vue.component('customer-registration', {
             dialog: {
                 success: false
             },
-            form: {
-                type: 'customer'
-            }
+            rules: {
+                password: [v => v === this.form.pass || 'Passwords do not match.',
+                v => !!v || 'This field cannot be blank.']
+            },
+            form: {}
         }
     },
     methods: {
         submitRegistration () {
             if (this.$refs.registration.validate()) {
-                axios.post('./sql/registration.php', this.form)
+                let formData = new FormData()
+                formData.set('type', 'customer')
+                formData.set('email', this.form.email);
+                formData.set('pass', this.form.pass);
+                formData.set('fname', this.form.fname);
+                formData.set('lname', this.form.lname);
+                formData.set('address', this.form.address);
+                formData.set('city', this.form.city);
+                formData.set('province', this.form.province);
+                formData.set('contact', this.form.contact);
+                axios.post('./sql/registration.php', formData)
                 .then((res) => {
+                    console.log(res.data)
                     if (res.data === '') {
                         this.dialog.success = true
                     }
@@ -34,8 +47,8 @@ const CustomerRegistration = Vue.component('customer-registration', {
     <v-form ref="registration" v-model="validate">
     <v-row>
     <v-col cols="12" md="4"><v-text-field :rules="$rules.required" type="email" v-model="form.email" rounded filled placeholder="Email Address"/></v-col>
-    <v-col cols="12" md="4"><v-text-field v-model="form.pass" type="password" rounded filled placeholder="Password"/></v-col>
-    <v-col cols="12" md="4"><v-text-field v-model="cpass" type="password" rounded filled placeholder="Confirm Password"/></v-col>
+    <v-col cols="12" md="4"><v-text-field :rules="$rules.required" v-model="form.pass" type="password" rounded filled placeholder="Password"/></v-col>
+    <v-col cols="12" md="4"><v-text-field :rules="rules.password"  v-model="cpass" type="password" rounded filled placeholder="Confirm Password"/></v-col>
     <v-col cols="12" md="6"><v-text-field :rules="$rules.required" v-model="form.fname" rounded filled placeholder="First Name"/></v-col>
     <v-col cols="12" md="6"><v-text-field :rules="$rules.required" v-model="form.lname" rounded filled placeholder="Last Name"/></v-col>
     <v-col cols="12"><v-text-field :rules="$rules.required" v-model="form.address" rounded filled placeholder="Home Address"/></v-col>
@@ -59,7 +72,7 @@ const CustomerRegistration = Vue.component('customer-registration', {
     <v-card-title>Registration Complete!</v-card-title>
     <v-card-text>Welcome!  Thank you for registering an account at our shop.  You can now order apparel from any of our sellers.</v-card-text>
     <v-card-actions>
-    <v-btn x-large tile depressed block color="primary" to="/shop">Get Started</v-btn>
+    <v-btn x-large tile depressed block color="primary" to="/sign-in">Get Started</v-btn>
     </v-card-actions>
     </v-card>
     </v-dialog>

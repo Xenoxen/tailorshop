@@ -39,7 +39,7 @@ const Login = Vue.component('login-view', {
               sessionStorage.setItem('displayName', data.displayName)
               sessionStorage.setItem('email', data.email)
               sessionStorage.setItem('type', data.type)
-              if (data.type === 'customer') { router.push('/') }
+              if (data.type === 'customer') { router.push('/'); location.reload() }
               else if (data.type === 'seller') { router.push('/seller') }
             }
             this.loading.login = false

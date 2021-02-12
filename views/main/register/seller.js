@@ -11,6 +11,10 @@ const SellerRegistration = Vue.component('customer-registration', {
             },
             form: {
                 type: 'seller'
+            },
+            rules: {
+                password: [v => v === this.form.pass || 'Passwords do not match.',
+                v => !!v || 'This field cannot be blank.']
             }
         }
     },
@@ -20,7 +24,7 @@ const SellerRegistration = Vue.component('customer-registration', {
                 let formData = new FormData();
                 formData.set('type', this.form.type);
                 formData.set('bname', this.form.bname);
-                formData.set('baddress', this.form.bname);
+                formData.set('baddress', this.form.baddress);
                 formData.append('logo', this.photoFile);
                 formData.set('email', this.form.email);
                 formData.set('pass', this.form.pass);
@@ -64,8 +68,8 @@ const SellerRegistration = Vue.component('customer-registration', {
     </v-col>
     <v-col cols="12"><v-divider/></v-col>
     <v-col cols="12" md="4"><v-text-field :rules="$rules.required" type="email" v-model="form.email" rounded filled placeholder="Email Address"/></v-col>
-    <v-col cols="12" md="4"><v-text-field v-model="form.pass" type="password" rounded filled placeholder="Password"/></v-col>
-    <v-col cols="12" md="4"><v-text-field v-model="cpass" type="password" rounded filled placeholder="Confirm Password"/></v-col>
+    <v-col cols="12" md="4"><v-text-field :rules="$rules.required" v-model="form.pass" type="password" rounded filled placeholder="Password"/></v-col>
+    <v-col cols="12" md="4"><v-text-field :rules="rules.password" v-model="cpass" type="password" rounded filled placeholder="Confirm Password"/></v-col>
     <v-col cols="12" md="6"><v-text-field :rules="$rules.required" v-model="form.fname" rounded filled placeholder="First Name"/></v-col>
     <v-col cols="12" md="6"><v-text-field :rules="$rules.required" v-model="form.lname" rounded filled placeholder="Last Name"/></v-col>
     <v-col cols="12"><v-text-field :rules="$rules.required" v-model="form.address" rounded filled placeholder="Home Address"/></v-col>
