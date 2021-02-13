@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2021 at 09:14 PM
+-- Generation Time: Feb 13, 2021 at 09:43 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -77,6 +77,7 @@ CREATE TABLE `cart` (
   `sleeve` decimal(10,0) DEFAULT NULL,
   `bust` decimal(10,0) DEFAULT NULL,
   `hip` decimal(10,0) DEFAULT NULL,
+  `variant` text DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -104,7 +105,8 @@ CREATE TABLE `order-items` (
   `back` decimal(10,0) DEFAULT NULL,
   `sleeve` decimal(10,0) DEFAULT NULL,
   `bust` decimal(10,0) DEFAULT NULL,
-  `hip` decimal(10,0) DEFAULT NULL
+  `hip` decimal(10,0) DEFAULT NULL,
+  `variant` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -141,11 +143,7 @@ CREATE TABLE `products` (
   `category` varchar(128) NOT NULL,
   `price` decimal(10,0) NOT NULL,
   `photo` varchar(255) NOT NULL,
-  `seller` int(11) NOT NULL,
-  `small` tinyint(1) NOT NULL DEFAULT 1,
-  `medium` tinyint(1) NOT NULL DEFAULT 1,
-  `large` tinyint(1) NOT NULL DEFAULT 1,
-  `custom` tinyint(1) NOT NULL DEFAULT 1
+  `seller` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -189,8 +187,19 @@ CREATE TABLE `sellers` (
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `logo` varchar(255) NOT NULL,
-  `banner` varchar(255) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `variants`
+--
+
+CREATE TABLE `variants` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `product` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -254,6 +263,12 @@ ALTER TABLE `sellers`
   ADD UNIQUE KEY `business_name` (`name`);
 
 --
+-- Indexes for table `variants`
+--
+ALTER TABLE `variants`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -261,55 +276,61 @@ ALTER TABLE `sellers`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `cancellations`
 --
 ALTER TABLE `cancellations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `ci_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ci_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `order-items`
 --
 ALTER TABLE `order-items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sellers`
 --
 ALTER TABLE `sellers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `variants`
+--
+ALTER TABLE `variants`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

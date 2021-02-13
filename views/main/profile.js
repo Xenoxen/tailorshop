@@ -163,11 +163,11 @@ const CustomerProfile = Vue.component('customer-profile', {
     <v-col cols="12" md="6">
     <div class="title">My Cart ({{view.items ? view.items.length : 0}})</div>
     <v-list one-line style="max-height: 280px; overflow-y: auto;">
-    <v-list-item two-line v-for="(i, index) in view.items" :key="'order-item-'+index" link @click="viewOrderItem(i)">
+    <v-list-item two-line v-for="(i, index) in view.items" :key="'order-item-'+index">
     <v-list-item-avatar tile><v-img :src="i.photo"/></v-list-item-avatar>
     <v-list-item-content>
     <v-list-item-title>{{i.name}}{{i.size === 'Custom Fit' ? '(Custom)' : null}}</v-list-item-title>
-    <v-list-item-subtitle><v-chip small dark :color="$statusColors(i.status)">{{i.status}}</v-chip></v-list-item-subtitle>
+    <v-list-item-subtitle><v-chip @click="viewOrderItem(i)" small dark :color="$statusColors(i.status)">{{i.status}}</v-chip></v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-content>
     <v-list-item-title>x{{i.qty}}</v-list-item-title>
@@ -232,7 +232,8 @@ const CustomerProfile = Vue.component('customer-profile', {
     <v-list-item-avatar tile size="120"><v-img :src="viewItem.photo"/></v-list-item-avatar>
     <v-list-item-content>
     <v-list-item-title class="text-h5">{{viewItem.name}}</v-list-item-title>
-    <v-list-item-subtitle class="text-h6 font-weight-light">₱ {{viewItem.price}}</v-list-item-subtitle>
+    <v-list-item-subtitle class="text-h5 font-weight-light">₱ {{viewItem.price}}</v-list-item-subtitle>
+    <v-list-item-subtitle class="text-h6 font-weight-light" v-show="viewItem.variant !== 'null'">Variant: {{viewItem.variant}}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
     <v-list-item-action-text class="title">x{{viewItem.qty}}</v-list-item-action-text>
@@ -247,7 +248,7 @@ const CustomerProfile = Vue.component('customer-profile', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="viewItem.head">
+    <v-col cols="12" md="3" v-if="viewItem.head > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.head}}</v-list-item-title>
@@ -255,7 +256,7 @@ const CustomerProfile = Vue.component('customer-profile', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="viewItem.chest">
+    <v-col cols="12" md="3" v-if="viewItem.chest > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.chest}}</v-list-item-title>
@@ -263,7 +264,7 @@ const CustomerProfile = Vue.component('customer-profile', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="viewItem.bust">
+    <v-col cols="12" md="3" v-if="viewItem.bust > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.bust}}</v-list-item-title>
@@ -271,7 +272,7 @@ const CustomerProfile = Vue.component('customer-profile', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="viewItem.waist">
+    <v-col cols="12" md="3" v-if="viewItem.waist > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.waist}}</v-list-item-title>
@@ -279,7 +280,7 @@ const CustomerProfile = Vue.component('customer-profile', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="viewItem.back">
+    <v-col cols="12" md="3" v-if="viewItem.back > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.back}}</v-list-item-title>
@@ -287,14 +288,14 @@ const CustomerProfile = Vue.component('customer-profile', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="viewItem.sleeve">
+    <v-col cols="12" md="3" v-if="viewItem.sleeve > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.sleeve}}</v-list-item-title>
     <v-list-item-subtitle>Sleeve (in.)</v-list-item-subtitle>
     </v-list-item-content>
     </v-list-item>
-    <v-col cols="12" md="3" v-if="viewItem.hip">
+    <v-col cols="12" md="3" v-if="viewItem.hip > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{viewItem.hip}}</v-list-item-title>

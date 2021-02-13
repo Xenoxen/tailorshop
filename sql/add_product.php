@@ -20,13 +20,23 @@
     // Encodes sizes as JSON.
     if(!file_exists($folder)) { mkdir($folder, 0777); }
     if (move_uploaded_file($filetemp, $dest)) {
-        $form = array($_POST['name'], $_POST['description'], $_POST['category'], $_POST['price'], $_POST['small'], $_POST['medium'], $_POST['large'], $_POST['custom'], $path, $sellerId);
-        $sql = $handler->prepare('INSERT INTO products(name, description, category, price, small, medium, large, custom, photo, seller) VALUES(?,?,?,?,?,?,?,?,?,?)');
+        $form = array($_POST['name'], $_POST['description'], $_POST['category'], $_POST['price'], $path, $sellerId);
+        $sql = $handler->prepare('INSERT INTO products(name, description, category, price, photo, seller) VALUES(?,?,?,?,?,?)');
         $sql->execute($form);
         // Gets the added product.
         $sql = $handler->prepare('SELECT * FROM products ORDER BY id DESC LIMIT 1');
         $sql->execute();
         $product = $sql->fetch(PDO::FETCH_OBJ);
+        // Add product variants.
+        if (isset($_POST['variants'])) {
+            $variants = $_POST['variants'];
+            $variants = json_decode($_POST['variants']);
+            foreach($variants as $variant) {
+                $form = array($variant, $product->id);
+                $sql = $handler->prepare('INSERT INTO variants(name, product) VALUES (?,?)');
+                $sql->execute($form);
+            }
+        }
         echo json_encode($product);
     }
 ?>

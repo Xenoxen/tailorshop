@@ -24,6 +24,7 @@ const Product = Vue.component('view-product', {
                 sleeve: null,
                 bust: null,
                 hip: null,
+                variant: null,
                 qty: 1
             },
             info: {},
@@ -44,6 +45,7 @@ const Product = Vue.component('view-product', {
             const product = res.data
             if (product.uid === sessionStorage.uid) { this.ordered = true }
             this.info = product
+            console.log(product)
         }).catch((error) => { console.error(error); this.$emit('snackbar', error)})
         // Get questions
         axios.post('./sql/get_questions.php', formData).then((res) => {
@@ -78,6 +80,7 @@ const Product = Vue.component('view-product', {
                 formData.set('sleeve', this.form.sleeve)
                 formData.set('bust', this.form.bust)
                 formData.set('hip', this.form.hip)
+                formData.set('variant', this.form.variant)
                 formData.set('qty', this.form.qty)
                 axios.post('./sql/add_cart.php', formData).then((res) => {
                     const cartItem = res.data
@@ -135,6 +138,9 @@ const Product = Vue.component('view-product', {
     <div class="text-h5 font-weight-bold">₱ {{info.price*form.qty}}</div>
     <div class="text-body-2 my-4">{{info.description}}</div>
     <v-form v-show="loggedIn" ref="addProduct" v-model="validate">
+    <v-radio-group v-if="info.variants && info.variants.length > 0" :rules="$rules.required" color="secondary" v-model="form.variant" label="Variants" row>
+    <v-radio v-for="(i, index) in info.variants" :value="i" :label="i"/>
+    </v-radio-group>
     <v-radio-group :rules="$rules.required" color="secondary" v-model="form.size" label="Available Sizes" row>
     <v-radio value="Small" label="Small"/>
     <v-radio value="Medium" label="Medium"/>

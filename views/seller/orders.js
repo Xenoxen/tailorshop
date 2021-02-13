@@ -97,6 +97,7 @@ const SellerOrders = Vue.component('seller-orders', {
     <v-list-item-content>
     <v-list-item-title class="text-h5">{{view.itemName}}</v-list-item-title>
     <v-list-item-subtitle class="text-h6 font-weight-light">₱ {{view.price}}</v-list-item-subtitle>
+    <v-list-item-subtitle class="text-h6 font-weight-light" v-show="view.variant !== 'null'">Variant: {{view.variant}}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
     <v-list-item-action-text class="title">x{{view.qty}}</v-list-item-action-text>
@@ -111,7 +112,7 @@ const SellerOrders = Vue.component('seller-orders', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="view.head">
+    <v-col cols="12" md="3" v-if="view.head > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.head}}</v-list-item-title>
@@ -119,7 +120,7 @@ const SellerOrders = Vue.component('seller-orders', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="view.chest">
+    <v-col cols="12" md="3" v-if="view.chest > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.chest}}</v-list-item-title>
@@ -127,7 +128,7 @@ const SellerOrders = Vue.component('seller-orders', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="view.bust">
+    <v-col cols="12" md="3" v-if="view.bust > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.bust}}</v-list-item-title>
@@ -135,7 +136,7 @@ const SellerOrders = Vue.component('seller-orders', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="view.waist">
+    <v-col cols="12" md="3" v-if="view.waist > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.waist}}</v-list-item-title>
@@ -143,7 +144,7 @@ const SellerOrders = Vue.component('seller-orders', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="view.back">
+    <v-col cols="12" md="3" v-if="view.back > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.back}}</v-list-item-title>
@@ -151,14 +152,14 @@ const SellerOrders = Vue.component('seller-orders', {
     </v-list-item-content>
     </v-list-item>
     </v-col>
-    <v-col cols="12" md="3" v-if="view.sleeve">
+    <v-col cols="12" md="3" v-if="view.sleeve > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.sleeve}}</v-list-item-title>
     <v-list-item-subtitle>Sleeve (in.)</v-list-item-subtitle>
     </v-list-item-content>
     </v-list-item>
-    <v-col cols="12" md="3" v-if="view.hip">
+    <v-col cols="12" md="3" v-if="view.hip > 0">
     <v-list-item two-line>
     <v-list-item-content>
     <v-list-item-title>{{view.hip}}</v-list-item-title>

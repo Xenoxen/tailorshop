@@ -9,13 +9,17 @@
         $sql = $handler->prepare('SELECT uid, productId, orderId, status FROM `order-items` AS items LEFT JOIN orders ON orders.id = items.orderId WHERE orders.uid = ? AND items.status = "Delivered"');
         $sql->execute(array($_POST['uid']));
         $count = $sql->rowCount();
-        if ($count >= 1) {
-            $product->ordered = true;
-        } else {
-            $product->ordered = false;
-        }
+        if ($count >= 1) { $product->ordered = true; }
+        else { $product->ordered = false; }
     }
     $product = $row;
+
+    // Get variants if any.
+    $sql = $handler->prepare('SELECT name FROM variants WHERE product = ?');
+    $sql->execute(array($_POST['id']));
+    $variants = array();
+    while($variant = $sql->fetch(PDO::FETCH_OBJ)) { $variants[] = $variant->name; }
+    $product->variants = $variants;
     echo json_encode($product);
     die();
 ?>

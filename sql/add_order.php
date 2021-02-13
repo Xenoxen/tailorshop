@@ -12,8 +12,8 @@
     // Inserts all cart items into order items table.
     $cart = json_decode($_POST['cart']);
     foreach($cart as $item) {
-        $form = array($item->name, $item->price, $item->size, $item->qty, $item->sellerId, $item->productId, $orderId);
-        $sql = $handler->prepare('INSERT INTO `order-items`(name, price, size, qty, sellerId, productId, orderId) VALUES(?,?,?,?,?,?,?)');
+        $form = array($item->name, $item->price, $item->size, $item->qty, $item->sellerId, $item->productId, $orderId, $item->head, $item->chest, $item->waist, $item->back, $item->sleeve, $item->bust, $item->hip, $item->variant);
+        $sql = $handler->prepare('INSERT INTO `order-items`(name, price, size, qty, sellerId, productId, orderId, head, chest, waist, back, sleeve, bust, hip, variant) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
         $sql->execute($form);
     }
     // Delete all items in user's cart.

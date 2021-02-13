@@ -7,10 +7,7 @@ const MyProducts = Vue.component('my-products', {
               name: null,
               category: null,
               price: null,
-              small: false,
-              medium: false,
-              large: false,
-              custom: false
+              variants: []
             },
             loading: {
               products: true,
@@ -51,20 +48,16 @@ const MyProducts = Vue.component('my-products', {
           formData.set('name', this.form.name)
           formData.set('description', this.form.description)
           formData.set('category', this.form.category)
-          formData.set('small', this.form.small)
-          formData.set('medium', this.form.medium)
-          formData.set('large', this.form.large)
-          formData.set('custom', this.form.custom)
           formData.set('price', this.form.price)
+          formData.set('variants', JSON.stringify(this.form.variants))
           formData.append('photo', this.photoFile)
           axios.post('./sql/add_product.php', formData, {headers: { 'Content-Type': 'multipart/form-data' }})
           .then((res) => {
             const product = res.data
             this.dialog.product = false
             this.loading.add = false
-            console.log(product)
             this.products.push(product)
-            this.$refs.productDialog.reset()
+            // this.$refs.productDialog.reset()
           })
           .catch((error) => { console.error(error); this.loading.add = false })
         }
@@ -133,7 +126,15 @@ const MyProducts = Vue.component('my-products', {
       }
     },
     template: `<v-container>
-    <v-row>
+    <v-sheet height="480" color="transparent" v-if="products.length === 0">
+    <v-row class="fill-height" align="center">
+    <v-col cols="12" align="center">
+    <v-icon size="120" color="white">mdi-cart-off</v-icon>
+    <div class="display-1 white--text">No Products Added.</div>
+    </v-col>
+    </v-row>
+    </v-sheet>
+    <v-row v-else>
     <v-col cols="12" sm="4" md="3" v-for="(i, index) in products" :key="'product-'+index">
     <transition appear name="pop" mode="out-in">
     <v-skeleton-loader type="card, card, card, card" :loading="loading.products">
@@ -162,21 +163,13 @@ const MyProducts = Vue.component('my-products', {
     <v-col cols="12">
     <v-text-field :rules="$rules.required" rounded filled v-model="form.name" placeholder="Product Name"/>
     <v-textarea :rules="$rules.required" rounded rows="3" filled v-model="form.description" placeholder="Description"/>
+    <v-combobox multiple small-chips rounded filled v-model="form.variants" :items="form.variants" placeholder="Variants (Optional)" hint="Add variants for other types."/>
     </v-col>
     <v-col cols="12" md="6">
     <v-select :rules="$rules.required" :items="$categories" rounded filled v-model="form.category" placeholder="Category"/>
     </v-col>
     <v-col cols="12" md="6">
     <v-text-field :rules="$rules.required" type="number" rounded filled v-model="form.price" placeholder="Price (PHP)"/>
-    </v-col>
-    <v-col cols="12">
-    <div class="caption">Available Sizes</div>
-    <v-row>
-    <v-checkbox label="Small" v-model="form.small"/>
-    <v-checkbox label="Medium" v-model="form.medium"/>
-    <v-checkbox label="Large" v-model="form.large"/>
-    <v-checkbox label="Custom Fit" v-model="form.custom"/>
-    </v-row>
     </v-col>
     </v-row>
     </v-col>
