@@ -120,7 +120,7 @@ const mainView = Vue.component('main-view', {
             </v-list-item>
     </v-list>
     <v-card-actions>
-    <v-btn tile block depressed large color="primary" @click="goToCheckout">Checkout</v-btn>
+    <v-btn tile block :disabled="cart.length === 0" depressed large color="primary" @click="goToCheckout">Checkout</v-btn>
     </v-card-actions>
     </v-card>
     </v-menu>

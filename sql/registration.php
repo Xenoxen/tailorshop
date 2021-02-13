@@ -12,12 +12,13 @@
         case 'seller':
             $file = $_FILES['logo']['tmp_name'];
             $dest = '../storage/' . $_POST['bname'] . '/' . $_FILES['logo']['name'];
+            $path = './storage/' . $_POST['bname'] . '/' . $_FILES['logo']['name'];
             $folder = '../storage/' . $_POST['bname'];
             // If the folder for the seller does not exist, it will create one.
             if(!file_exists($folder)) { mkdir($folder, 0777); }
             if (move_uploaded_file($file, $dest)) {
                 // Creates seller information.
-                $seller = array($_POST['bname'], $_POST['baddress'], $_FILES['logo']['name']);
+                $seller = array($_POST['bname'], $_POST['baddress'], $path);
                 $sql = $handler->prepare('INSERT INTO sellers(name, address, logo) VALUES(?,?,?)');
                 $sql->execute($seller);
                 // Get latest row entry in seller.

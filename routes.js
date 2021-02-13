@@ -9,7 +9,11 @@ const routes = [
             },
             {
                 path: 'checkout',
-                component: Checkout
+                component: Checkout,
+                beforeEnter (to, from, next) {
+                    if (sessionStorage.uid) { next(false) }
+                    else { next() }
+                }
             },
             {
                 path: 'sign-in',
