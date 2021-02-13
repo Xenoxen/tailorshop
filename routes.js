@@ -11,8 +11,8 @@ const routes = [
                 path: 'checkout',
                 component: Checkout,
                 beforeEnter (to, from, next) {
-                    if (sessionStorage.uid) { next(false) }
-                    else { next() }
+                    if (sessionStorage.uid) { next() }
+                    else { next(false) }
                 }
             },
             {
