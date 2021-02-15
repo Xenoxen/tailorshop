@@ -1,4 +1,4 @@
-Vue.prototype.$provinces = ['Tarlac']
+Vue.prototype.$provinces = ['Bataan', 'Batangas', 'NCR', 'Tarlac']
 Vue.prototype.$categories = ['Hats', 'Shirts', 'Dresses', 'Jeans', 'Sweaters']
 Vue.prototype.$statusColors = (status) => {
     let color = null
